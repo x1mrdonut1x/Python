@@ -4,14 +4,14 @@ from bs4 import BeautifulSoup
 
 
 def setup():
+    """
+    Requests url and returns the HTML as text
+    """
     url = 'https://www.nytimes.com/'
     r = requests.get(url)
     r_html = r.text
 
-    soup = BeautifulSoup(r_html, "html.parser")
-    divtag = soup.find_all("div", class_="page")
-
-    return divtag
+    return r_html
 
 
 
@@ -21,7 +21,11 @@ def print_info():
     """
     num = 0
 
-    divtag = setup()
+    r_html = setup()
+
+    soup = BeautifulSoup(r_html, "html.parser")
+    divtag = soup.find_all("div", class_="page")
+    
     for heading in divtag:
         headings = heading.find_all('h2', attrs={"class": "story-heading"})
         for title in headings:
